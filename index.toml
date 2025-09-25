@@ -60,3 +60,14 @@ packages = [
     "torch",
     "torchvision"
 ]
+
+[[index]]
+name = "cupy"
+maintainers = [
+    { name = "Jonathan Dekhtiar", email = "jdekhtiar@nvidia.com" },
+    { name = "Leo Fang", email = "leof@nvidia.com" },
+]
+registry = "https://variants-index.wheelnext.dev/"
+packages = [
+    "cupy"
+]
