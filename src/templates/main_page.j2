@@ -219,7 +219,7 @@
 
             <div id="linux" class="tab-content active">
                 <div class="code-block">
-                    <pre><code id="linux-code" class="language-bash">curl -LsSf https://astral.sh/uv/install.sh | INSTALLER_DOWNLOAD_URL=https://wheelnext.astral.sh sh
+                    <pre><code id="linux-code" class="language-bash">curl -LsSf https://astral.sh/uv/install.sh | INSTALLER_DOWNLOAD_URL=https://wheelnext.astral.sh/v0.0.2 sh
 uv venv
 uv pip install torch</code></pre>
                     <button class="copy-btn" onclick="copyCode('linux-code')">Copy</button>
@@ -228,7 +228,7 @@ uv pip install torch</code></pre>
 
             <div id="windows" class="tab-content">
                 <div class="code-block">
-                    <pre><code id="windows-code" class="language-powershell">powershell -c { $env:INSTALLER_DOWNLOAD_URL = 'https://wheelnext.astral.sh'; irm https://astral.sh/uv/install.ps1 | iex }
+                    <pre><code id="windows-code" class="language-powershell">powershell -c { $env:INSTALLER_DOWNLOAD_URL = 'https://wheelnext.astral.sh/v0.0.2'; irm https://astral.sh/uv/install.ps1 | iex }
 uv venv
 uv pip install torch</code></pre>
                     <button class="copy-btn" onclick="copyCode('windows-code')">Copy</button>
