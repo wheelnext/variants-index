@@ -18,7 +18,7 @@
         "cu12": {
             "nvidia": {
                 "cuda_version_lower_bound": [
-                    "12"
+                    "12.0"
                 ]
             }
         }

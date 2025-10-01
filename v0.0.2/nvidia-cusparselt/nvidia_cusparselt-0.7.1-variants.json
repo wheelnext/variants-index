@@ -7,10 +7,10 @@
     },
     "providers": {
         "nvidia": {
-            "enable-if": "platform_system == 'Linux' and platform_machine == 'x86_64'",
+            "enable-if": "platform_system == 'Linux'",
             "plugin-api": "nvidia_variant_provider.plugin:NvidiaVariantPlugin",
             "requires": [
-                "nvidia-variant-provider>=0.0.1,<1.0.0"
+                "nvidia-variant-provider>=0.0.2,<1.0.0"
             ]
         }
     },
