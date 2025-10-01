@@ -73,6 +73,16 @@ packages = [
 ]
 
 [[index]]
+name = "xgboost"
+maintainers = [
+    { name = "Hyunsu Cho", email = "phcho@nvidia.com" },
+]
+registry = "https://wheels-variant.xgboost-ci.com/"
+packages = [
+    "xgboost"
+]
+
+[[index]]
 name = "intel-provider"
 maintainers = [
     {name = "Chuanqi Wang", email = "chuanqi.wang@intel.com"},
