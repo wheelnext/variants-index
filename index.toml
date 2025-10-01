@@ -16,7 +16,7 @@ packages = [
 ]
 
 [[index]]
-name = "nvidia"
+name = "nvidia-provider"
 maintainers = [
     { name = "Jonathan Dekhtiar", email = "jdekhtiar@nvidia.com" },
 ]
@@ -26,14 +26,12 @@ packages = [
 ]
 
 [[index]]
-name = "pytorch"
+name = "nvidia"
 maintainers = [
-    { name = "Andrey Talman", email = "atalman@meta.com" },
-    { name = "Eli Uriegas", email = "eliuriegas@meta.com" },
+    { name = "Jonathan Dekhtiar", email = "jdekhtiar@nvidia.com" },
 ]
-registry = "https://download.pytorch.org/whl/variant/"
+registry = "https://variants-index.wheelnext.dev/"
 packages = [
-    # NVIDIA Packages
     "nvidia-cublas",
     "nvidia-cuda-cupti",
     "nvidia-cuda-nvrtc",
@@ -47,8 +45,18 @@ packages = [
     "nvidia-cusparselt",
     "nvidia-nccl",
     "nvidia-nvjitlink",
+    "nvidia-nvshmem",
     "nvidia-nvtx",
-    # PyTorch
+]
+
+[[index]]
+name = "pytorch"
+maintainers = [
+    { name = "Andrey Talman", email = "atalman@meta.com" },
+    { name = "Eli Uriegas", email = "eliuriegas@meta.com" },
+]
+registry = "https://download.pytorch.org/whl/variant/"
+packages = [
     "torch",
     "torchvision"
 ]
