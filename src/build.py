@@ -216,7 +216,7 @@ def generate_project_index(pkg_config: PkgConfig) -> None:
     )
     template = jinja_env.get_template("project_page.j2")
 
-    artifacts = fetch_links(safe_urljoin(pkg_config.registry, pkg_config.name))
+    artifacts = fetch_links(safe_urljoin(pkg_config.registry, pkg_config.name + "/"))
 
     variants_json_files = sorted(
         [artifact for artifact in artifacts if isinstance(artifact, VariantJson)],
