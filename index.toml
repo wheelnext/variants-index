@@ -71,3 +71,14 @@ registry = "https://variants-index.wheelnext.dev/"
 packages = [
     "cupy"
 ]
+
+[[index]]
+name = "intel-provider"
+maintainers = [
+    {name = "Chuanqi Wang", email = "chuanqi.wang@intel.com"},
+    {name = "Dmitry Rogozhkin", email = "dmitry.v.rogozhkin@intel.com"},
+]
+registry = "https://wheelnext.github.io/intel-variant-provider/"
+packages = [
+    "intel-variant-provider",
+]
