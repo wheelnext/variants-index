@@ -82,3 +82,13 @@ registry = "https://wheelnext.github.io/intel-variant-provider/"
 packages = [
     "intel-variant-provider",
 ]
+
+[[index]]
+name = "amd-provider"
+maintainers = [
+    {name = "Jithun Nair", email = "jithun.nair@amd.com"},
+]
+registry = "https://wheelnext.github.io/amd-variant-provider/"
+packages = [
+    "amd-variant-provider",
+]
