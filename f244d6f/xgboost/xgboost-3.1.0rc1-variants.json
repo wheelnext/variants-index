@@ -18,6 +18,16 @@
             "nvidia": {
                 "cuda_version_lower_bound": [
                     "12.0"
+                ],
+                "sm_arch": [
+                    "100_real",
+                    "120_real",
+                    "120_virtual",
+                    "50_real",
+                    "60_real",
+                    "70_real",
+                    "80_real",
+                    "90_real"
                 ]
             }
         },
@@ -25,6 +35,14 @@
             "nvidia": {
                 "cuda_version_lower_bound": [
                     "13.0"
+                ],
+                "sm_arch": [
+                    "100_real",
+                    "120_real",
+                    "120_virtual",
+                    "75_real",
+                    "80_real",
+                    "90_real"
                 ]
             }
         }
