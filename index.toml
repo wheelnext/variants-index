@@ -47,6 +47,8 @@ packages = [
     "nvidia-nvjitlink",
     "nvidia-nvshmem",
     "nvidia-nvtx",
+    "transformer-engine",
+    "transformer-engine-lib"
 ]
 
 [[index]]
