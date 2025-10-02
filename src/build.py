@@ -84,7 +84,7 @@ class VariantJson(Artifact):
     @classmethod
     def from_file(cls, fp: Path) -> VariantJson:
         return VariantJson(
-            name=fp.name, link=fp.name, checksum=f"sha256={sha256sum(fp)}"
+            name=fp.name, link=fp.name, checksum=sha256sum(fp)
         )
 
 
