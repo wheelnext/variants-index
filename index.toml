@@ -75,6 +75,18 @@ packages = [
 ]
 
 [[index]]
+name = "rapids-nightlies"
+maintainers = [
+    { name = "Kyle Edwards", email = "kyedwards@nvidia.com" },
+    { name = "Michael Sarahan", email = "msarahan@nvidia.com" },
+]
+registry = "https://pypi.anaconda.org/rapidsai-wheels-nightly/simple/"
+packages = [
+    "libcudf-cu12",
+    "libcudf-cu13",
+]
+
+[[index]]
 name = "cupy"
 maintainers = [
     { name = "Jonathan Dekhtiar", email = "jdekhtiar@nvidia.com" },
