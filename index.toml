@@ -64,6 +64,17 @@ packages = [
 ]
 
 [[index]]
+name = "rapids"
+maintainers = [
+    { name = "Kyle Edwards", email = "kyedwards@nvidia.com" },
+    { name = "Michael Sarahan", email = "msarahan@nvidia.com" },
+]
+registry = "https://variants-index.wheelnext.dev/"
+packages = [
+    "cudf"
+]
+
+[[index]]
 name = "cupy"
 maintainers = [
     { name = "Jonathan Dekhtiar", email = "jdekhtiar@nvidia.com" },
