@@ -7,7 +7,7 @@ maintainers = [
 registry = "https://pypi.anaconda.org/mgorny/simple/"
 packages = [
     "blas-lapack-variant-provider",
-    # "numpy",
+    "numpy",
     "openmp-variant-provider",
     "provider-variant-aarch64",
     "provider-variant-x86-64",
@@ -46,9 +46,7 @@ packages = [
     "nvidia-nccl",
     "nvidia-nvjitlink",
     "nvidia-nvshmem",
-    "nvidia-nvtx",
-    "transformer-engine",
-    "transformer-engine-lib"
+    "nvidia-nvtx"
 ]
 
 [[index]]
@@ -60,36 +58,8 @@ maintainers = [
 registry = "https://download.pytorch.org/whl/variant/"
 packages = [
     "torch",
-    "torchvision"
-]
-
-[[index]]
-name = "rapids"
-maintainers = [
-    { name = "Kyle Edwards", email = "kyedwards@nvidia.com" },
-    { name = "Michael Sarahan", email = "msarahan@nvidia.com" },
-]
-registry = "https://variants-index.wheelnext.dev/"
-packages = [
-    "cudf"
-]
-
-[[index]]
-name = "rapids-nightlies"
-maintainers = [
-    { name = "Kyle Edwards", email = "kyedwards@nvidia.com" },
-    { name = "Michael Sarahan", email = "msarahan@nvidia.com" },
-]
-registry = "https://pypi.anaconda.org/rapidsai-wheels-nightly/simple/"
-packages = [
-    # "numba",
-    # "numba-cuda",
-    "libcudf-cu12",
-    "libcudf-cu13",
-    "pylibcudf-cu12",
-    "pylibcudf-cu13",
-    "rmm-cu12",
-    "rmm-cu13"
+    "torchvision",
+    "triton",
 ]
 
 [[index]]
@@ -102,6 +72,47 @@ registry = "https://variants-index.wheelnext.dev/"
 packages = [
     "cupy"
 ]
+
+[[index]]
+name = "transformer-engine"
+maintainers = [
+    { name = "Jonathan Dekhtiar", email = "jdekhtiar@nvidia.com" },
+    { name = "Kirthi Shankar Sivamani", email = "ksivamani@nvidia.com" },
+]
+registry = "https://variants-index.wheelnext.dev/"
+packages = [
+    "transformer-engine",
+    "transformer-engine-lib"
+]
+
+# [[index]]
+# name = "rapids"
+# maintainers = [
+#     { name = "Kyle Edwards", email = "kyedwards@nvidia.com" },
+#     { name = "Michael Sarahan", email = "msarahan@nvidia.com" },
+# ]
+# registry = "https://variants-index.wheelnext.dev/"
+# packages = [
+#     "cudf"
+# ]
+
+# [[index]]
+# name = "rapids-nightlies"
+# maintainers = [
+#     { name = "Kyle Edwards", email = "kyedwards@nvidia.com" },
+#     { name = "Michael Sarahan", email = "msarahan@nvidia.com" },
+# ]
+# registry = "https://pypi.anaconda.org/rapidsai-wheels-nightly/simple/"
+# packages = [
+#     # "numba",
+#     # "numba-cuda",
+#     "libcudf-cu12",
+#     "libcudf-cu13",
+#     "pylibcudf-cu12",
+#     "pylibcudf-cu13",
+#     "rmm-cu12",
+#     "rmm-cu13"
+# ]
 
 [[index]]
 name = "xgboost"
