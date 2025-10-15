@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import datetime
 import hashlib
 import json
@@ -16,6 +17,7 @@ import jinja2
 import jsonschema
 import requests
 from bs4 import BeautifulSoup
+from packaging.version import Version
 
 BUILD_DIR = Path("build")
 BUILD_DATE = datetime.datetime.now(tz=ZoneInfo("America/New_York")).strftime(
@@ -83,9 +85,7 @@ class VariantJson(Artifact):
 
     @classmethod
     def from_file(cls, fp: Path) -> VariantJson:
-        return VariantJson(
-            name=fp.name, link=fp.name, checksum=sha256sum(fp)
-        )
+        return VariantJson(name=fp.name, link=fp.name, checksum=sha256sum(fp))
 
 
 @dataclass(frozen=True)
@@ -218,6 +218,12 @@ def generate_project_index(pkg_config: PkgConfig) -> None:
 
     artifacts = fetch_links(safe_urljoin(pkg_config.registry, pkg_config.name + "/"))
 
+    # Also add the packages published on PyPI
+    with contextlib.suppress(requests.exceptions.HTTPError):
+        artifacts.extend(
+            fetch_links(safe_urljoin("https://pypi.org/simple", pkg_config.name + "/"))
+        )
+
     variants_json_files = sorted(
         [artifact for artifact in artifacts if isinstance(artifact, VariantJson)],
         key=lambda x: x.name,
@@ -257,13 +263,14 @@ def generate_project_index(pkg_config: PkgConfig) -> None:
             ),
         )
 
-    wheel_variant_files = sorted(
+    wheel_files = sorted(
         [
             augment_wheel_variant(artifact)
             for artifact in artifacts
             if isinstance(artifact, VariantWheel)
         ],
-        key=lambda x: x.name,
+        key=lambda x: (Version(x.name.split("-", maxsplit=2)[1]), x.name),
+        reverse=True,
     )
 
     # Render template
@@ -274,9 +281,10 @@ def generate_project_index(pkg_config: PkgConfig) -> None:
                 VariantJson.from_file(fp)
                 for fp in (BUILD_DIR / pkg_config.name).glob("*.json")
             ],
-            key=lambda vf: vf.name,
+            key=lambda vf: (Version(vf.name.split("-", maxsplit=2)[1]), vf.name),
+            reverse=True,
         ),
-        wheel_variant_files=wheel_variant_files,
+        wheel_variant_files=wheel_files,
         build_date=BUILD_DATE,
     )
 
