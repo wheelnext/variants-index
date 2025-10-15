@@ -67,7 +67,7 @@ maintainers = [
     { name = "Andrey Talman", email = "atalman@meta.com" },
     { name = "Eli Uriegas", email = "eliuriegas@meta.com" },
 ]
-registry = "https://download.pytorch.org/whl/variant"
+registry = "https://download.pytorch.org/whl/variant/"
 packages = [
     "triton",
     "pytorch-triton-rocm",
