@@ -171,6 +171,37 @@ def fetch_links(url: str) -> list[VariantWheel | VariantJson]:
     return artifacts
 
 
+def pkg_name_to_version(pkg_name: str) -> Version:
+    return Version(pkg_name.split("-", maxsplit=2)[1])
+
+
+def collect_all_links(pkgconfig: PkgConfig) -> list[VariantWheel | VariantJson]:
+    artifacts = fetch_links(safe_urljoin(pkgconfig.registry, pkgconfig.name + "/"))
+
+    variant_versions: set[Version] = {
+        pkg_name_to_version(artifact.name)
+        for artifact in artifacts
+        if isinstance(artifact, VariantWheel)
+    }
+
+    # Also add the packages published on PyPI
+    with contextlib.suppress(requests.exceptions.HTTPError):
+        for artifact in fetch_links(
+            safe_urljoin("https://pypi.org/simple", pkgconfig.name + "/")
+        ):
+            if isinstance(artifact, VariantJson):
+                raise TypeError(
+                    f"Unexpected Object found on pypi.org `{artifact.name}`"
+                )
+
+            if pkg_name_to_version(artifact.name) in variant_versions:
+                continue
+
+            artifacts.append(artifact)
+
+    return artifacts
+
+
 def download_json(url: str) -> dict[str, Any]:
     # Fetch the JSON content from the URL
     response = requests.get(url, timeout=10)
@@ -216,13 +247,7 @@ def generate_project_index(pkg_config: PkgConfig) -> None:
     )
     template = jinja_env.get_template("project_page.j2")
 
-    artifacts = fetch_links(safe_urljoin(pkg_config.registry, pkg_config.name + "/"))
-
-    # Also add the packages published on PyPI
-    with contextlib.suppress(requests.exceptions.HTTPError):
-        artifacts.extend(
-            fetch_links(safe_urljoin("https://pypi.org/simple", pkg_config.name + "/"))
-        )
+    artifacts = collect_all_links(pkg_config)
 
     variants_json_files = sorted(
         [artifact for artifact in artifacts if isinstance(artifact, VariantJson)],
