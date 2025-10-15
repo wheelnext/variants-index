@@ -59,7 +59,19 @@ registry = "https://download.pytorch.org/whl/variant/"
 packages = [
     "torch",
     "torchvision",
+]
+
+[[index]]
+name = "triton"
+maintainers = [
+    { name = "Andrey Talman", email = "atalman@meta.com" },
+    { name = "Eli Uriegas", email = "eliuriegas@meta.com" },
+]
+registry = "https://download.pytorch.org/whl/test/"
+packages = [
     "triton",
+    "pytorch-triton-rocm",
+    "pytorch-triton-xpu"
 ]
 
 [[index]]
