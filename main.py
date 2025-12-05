@@ -42,5 +42,5 @@ if __name__ == "__main__":
 
     generate_main_index(packages=list(packages.keys()))
 
-    for package in packages.values():
+    for package in sorted(packages.values(), key=lambda x: x.name):
         generate_project_index(package)

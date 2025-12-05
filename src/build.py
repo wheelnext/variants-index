@@ -48,6 +48,10 @@ VARIANT_WHL_FILE_REGEX = re.compile(
 )
 
 
+class VariantVersionNotSupportedError(Exception):
+    """Raised when a variant version is not supported."""
+
+
 def sha256sum(path: Path, chunk_size: int = 8192) -> str:
     """Compute the SHA-256 checksum of a file."""
     h = hashlib.sha256()
@@ -209,12 +213,21 @@ def download_json(url: str) -> dict[str, Any]:
 
     data = response.json()
 
-    # sanitazing
-    if data["$schema"] == "https://variants-schema.wheelnext.dev/":
-        # This schema has been renamed
-        data["$schema"] = "https://variants-schema.wheelnext.dev/v0.0.2.json"
-
     if "variants-schema.wheelnext.dev" in (schema_url := data["$schema"]):
+        if schema_url == "https://variants-schema.wheelnext.dev/":
+            # This schema has been renamed
+            schema_url = "https://variants-schema.wheelnext.dev/v0.0.2.json"
+
+        match urlparse(schema_url).path.rsplit("/", maxsplit=1)[-1]:
+            case "v0.0.2.json":
+                pass  # 0.0.2 is the current supported version
+
+            case _:
+                # already correct
+                raise VariantVersionNotSupportedError(
+                    f"Variant schema version not supported: `{schema_url}`"
+                )
+
         schema = download_json(url=schema_url)
         jsonschema.validate(instance=data, schema=schema)
 
@@ -262,7 +275,13 @@ def generate_project_index(pkg_config: PkgConfig) -> None:
                 f"Variant JSON file for version `{vjson_f.version}` and package "
                 f"{pkg_config.name} already exists."
             )
-        data = load_variant_json(vjson_f.link, pkg_cfg=pkg_config)
+
+        try:
+            data = load_variant_json(vjson_f.link, pkg_cfg=pkg_config)
+        except VariantVersionNotSupportedError:
+            logger.warning("Skipping `%s` ... Not compatible.", vjson_f.name)
+            continue
+
         if (variant_info := data.get("variants", None)) is None:
             raise ValueError("Invalid Variant JSON file format ...")
 
@@ -292,7 +311,10 @@ def generate_project_index(pkg_config: PkgConfig) -> None:
         [
             augment_wheel_variant(artifact)
             for artifact in artifacts
-            if isinstance(artifact, VariantWheel)
+            if (
+                isinstance(artifact, VariantWheel)
+                and artifact.version in variant_configs
+            )
         ],
         key=lambda x: (Version(x.name.split("-", maxsplit=2)[1]), x.name),
         reverse=True,

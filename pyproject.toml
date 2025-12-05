@@ -16,7 +16,7 @@ dependencies = [
     "requests>=2.32,<2.33",
     "tomlkit>=0.13,<0.14",
     "typing-extensions; python_version < '3.11'",
-    "variantlib[cli] @ git+https://github.com/wheelnext/variantlib.git@dev",
+    "variantlib[cli] @ git+https://github.com/wheelnext/variantlib.git@main#egg=variantlib[cli]",
     # "build>=1.2.0,<1.3",
     # "tzlocal>=3.0,<6",
     # "wheel>=0.45,<0.46"

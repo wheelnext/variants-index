@@ -68,9 +68,11 @@
       ]
     }
   },
-  "postCreateCommand": "uv sync",
+  "postCreateCommand": "uv sync --dev",
   "postStartCommand": "bash -c 'cd build/ && python3 -m http.server 5000'",
-  "forwardPorts": [5000],
+  "forwardPorts": [
+    5000
+  ],
   "portsAttributes": {
     "5000": {
       "label": "Variants Package Index Server",

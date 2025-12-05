@@ -3,7 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # Set a branch to deploy
+      - master
+      - v0.0.2
 
   workflow_dispatch:
 

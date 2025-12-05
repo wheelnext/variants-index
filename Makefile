@@ -25,8 +25,21 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 # ============================================================================ #
+# INSTALL COMMANDS
+# ============================================================================ #
+
+venv:
+	uv venv --clear --python python3.14
+
+install: venv
+	uv sync
+
+install-dev: venv
+	uv sync --dev
+
+# ============================================================================ #
 # BUILD COMMANDS
 # ============================================================================ #
 
 build: clean
-	python main.py
+	uv run main.py
