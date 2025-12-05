@@ -1,9 +1,9 @@
 [project]
 name = "WheelNext_Variants_Index"
-version = "0.0.2"
+version = "0.0.3"
 authors = [{ name = "Jonathan Dekhtiar", email = "jonathan@dekhtiar.com" }]
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
     # "frozendict>=2.4,<3",
     # "importlib-metadata; python_version < '3.10'",
@@ -13,6 +13,7 @@ dependencies = [
     "beautifulsoup4>=4.13,<4.14",
     "jinja2>=3.1,<3.2",
     "jsonschema>=4.25,<4.26",
+    "pydantic==2.12.5",
     "requests>=2.32,<2.33",
     "tomlkit>=0.13,<0.14",
     "typing-extensions; python_version < '3.11'",

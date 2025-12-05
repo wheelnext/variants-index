@@ -19,6 +19,9 @@ import requests
 from bs4 import BeautifulSoup
 from packaging.version import Version
 
+from src.schemas.v0_0_2 import WheelVariantJSON_V0_0_2
+from src.schemas.v0_0_3 import WheelVariantJSON_V0_0_3
+
 BUILD_DIR = Path("build")
 BUILD_DATE = datetime.datetime.now(tz=ZoneInfo("America/New_York")).strftime(
     "%Y-%m-%d %H:%M"
@@ -215,23 +218,31 @@ def download_json(url: str) -> dict[str, Any]:
 
     data = response.json()
 
-    if "variants-schema.wheelnext.dev" in (schema_url := data["$schema"]):
-        if schema_url == "https://variants-schema.wheelnext.dev/":
-            # This schema has been renamed
-            schema_url = "https://variants-schema.wheelnext.dev/v0.0.2.json"
+    if "variants-schema.wheelnext.dev" in data["$schema"]:
+        # This schema has been renamed
+        if data["$schema"] == "https://variants-schema.wheelnext.dev/":
+            data["$schema"] = "https://variants-schema.wheelnext.dev/v0.0.2.json"
 
-        match urlparse(schema_url).path.rsplit("/", maxsplit=1)[-1]:
-            case "v0.0.2.json":
-                pass  # 0.0.2 is the current supported version
+        try:
+            match urlparse(data["$schema"]).path.rsplit("/", maxsplit=1)[-1]:
+                case "v0.0.2.json":
+                    model = WheelVariantJSON_V0_0_2.model_validate(data)
+                    model_v3 = model.to_v0_0_3()
+                    data = model_v3.model_dump(exclude_none=True, by_alias=True)
 
-            case _:
-                # already correct
-                raise VariantVersionNotSupportedError(
-                    f"Variant schema version not supported: `{schema_url}`"
-                )
+                case "v0.0.3.json":
+                    _ = WheelVariantJSON_V0_0_3.model_validate(data)  # validation
 
-        data["$schema"] = schema_url
-        schema = download_json(url=schema_url)
+                case _:
+                    # already correct
+                    raise VariantVersionNotSupportedError(  # noqa: TRY301
+                        f"Variant schema version not supported: `{data['$schema']}`"
+                    )
+        except Exception:
+            print(f"Validation failed for: {url}")  # noqa: T201
+            raise
+
+        schema = download_json(url=data["$schema"])
         jsonschema.validate(instance=data, schema=schema)
 
     return data

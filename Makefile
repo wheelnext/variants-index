@@ -1,4 +1,4 @@
-.PHONY: clean build
+.PHONY: clean build install install-dev venv
 
 # ============================================================================ #
 # CLEAN COMMANDS
