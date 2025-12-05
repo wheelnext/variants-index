@@ -4,7 +4,7 @@
 # CLEAN COMMANDS
 # ============================================================================ #
 
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -17,13 +17,6 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 	find . -name '__pycache__' -exec rm -fr {} +
-
-clean-test: ## remove test and coverage artifacts
-	rm -fr .tox/
-	rm -f .coverage*
-	rm -fr htmlcov/
-	rm -fr .pytest_cache
-
 # ============================================================================ #
 # INSTALL COMMANDS
 # ============================================================================ #

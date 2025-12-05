@@ -38,9 +38,10 @@ if __name__ == "__main__":
 
     with contextlib.suppress(FileNotFoundError):
         shutil.rmtree(BUILD_DIR)
-    BUILD_DIR.mkdir(exist_ok=True, parents=True)
 
-    generate_main_index(packages=list(packages.keys()))
+    BUILD_DIR.mkdir(exist_ok=True, parents=True)
 
     for package in sorted(packages.values(), key=lambda x: x.name):
         generate_project_index(package)
+
+    generate_main_index(packages=list(packages.keys()))

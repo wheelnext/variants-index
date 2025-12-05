@@ -120,9 +120,11 @@ def generate_main_index(packages: list[str]) -> None:
     )
     template = jinja_env.get_template("main_page.j2")
 
+    filtered_packages = [pkg for pkg in packages if (BUILD_DIR / pkg).is_dir()]
+
     # Render template
     output = template.render(
-        directories=sorted(packages),
+        directories=sorted(filtered_packages),
         build_date=BUILD_DATE,
     )
 
@@ -228,6 +230,7 @@ def download_json(url: str) -> dict[str, Any]:
                     f"Variant schema version not supported: `{schema_url}`"
                 )
 
+        data["$schema"] = schema_url
         schema = download_json(url=schema_url)
         jsonschema.validate(instance=data, schema=schema)
 
@@ -251,6 +254,7 @@ def load_variant_json(url: str, pkg_cfg: PkgConfig) -> dict[str, Any]:
 
 
 def generate_project_index(pkg_config: PkgConfig) -> None:
+    print()  # noqa: T201
     logger.info("Processing `%s` ...", pkg_config.name)
     # Load template
     current_dir = Path(__file__).parent
@@ -319,6 +323,10 @@ def generate_project_index(pkg_config: PkgConfig) -> None:
         key=lambda x: (Version(x.name.split("-", maxsplit=2)[1]), x.name),
         reverse=True,
     )
+
+    if not wheel_files:
+        logger.warning("No wheel files found for `%s`. Skipping...", pkg_config.name)
+        return
 
     # Render template
     output = template.render(
