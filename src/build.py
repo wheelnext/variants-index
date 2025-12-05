@@ -317,7 +317,7 @@ def generate_project_index(pkg_config: PkgConfig) -> None:
             for artifact in artifacts
             if (
                 isinstance(artifact, VariantWheel)
-                and artifact.version in variant_configs
+                and (not artifact.variant_alias or artifact.version in variant_configs)
             )
         ],
         key=lambda x: (Version(x.name.split("-", maxsplit=2)[1]), x.name),
