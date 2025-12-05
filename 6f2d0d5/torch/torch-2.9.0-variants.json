@@ -1,0 +1,178 @@
+{
+    "$schema": "https://variants-schema.wheelnext.dev/v0.0.3.json",
+    "default-priorities": {
+        "feature": {},
+        "namespace": [
+            "nvidia",
+            "intel",
+            "amd",
+            "priority"
+        ],
+        "property": {
+            "priority": {
+                "order": [
+                    "1",
+                    "2",
+                    "3"
+                ]
+            }
+        }
+    },
+    "providers": {
+        "amd": {
+            "enable-if": "platform_system == 'Linux'",
+            "install-time": true,
+            "plugin-api": "amd_variant_provider.plugin:AMDVariantPlugin",
+            "requires": [
+                "amd-variant-provider>=0.0.2,<1.0.0"
+            ]
+        },
+        "intel": {
+            "enable-if": "platform_system == 'Linux' or platform_system == 'Windows'",
+            "install-time": true,
+            "plugin-api": "intel_variant_provider.plugin:IntelVariantPlugin",
+            "requires": [
+                "intel-variant-provider>=0.0.2,<1.0.0"
+            ]
+        },
+        "nvidia": {
+            "enable-if": "platform_system == 'Linux' or platform_system == 'Windows'",
+            "install-time": true,
+            "plugin-api": "nvidia_variant_provider.plugin:NvidiaVariantPlugin",
+            "requires": [
+                "nvidia-variant-provider>=0.0.2,<1.0.0"
+            ]
+        },
+        "priority": {
+            "install-time": false,
+            "requires": []
+        }
+    },
+    "static-properties": {
+        "priority": {
+            "order": [
+                "1",
+                "2",
+                "3"
+            ]
+        }
+    },
+    "variants": {
+        "cuda12.6": {
+            "nvidia": {
+                "cuda_version_lower_bound": [
+                    "12.0"
+                ],
+                "sm_arch": [
+                    "50_real",
+                    "60_real",
+                    "70_real",
+                    "75_real",
+                    "80_real",
+                    "86_real",
+                    "90_real"
+                ]
+            },
+            "priority": {
+                "order": [
+                    "3"
+                ]
+            }
+        },
+        "cuda12.8": {
+            "nvidia": {
+                "cuda_version_lower_bound": [
+                    "12.0"
+                ],
+                "sm_arch": [
+                    "70_real",
+                    "75_real",
+                    "80_real",
+                    "86_real",
+                    "90_real",
+                    "100_real",
+                    "120_real"
+                ]
+            },
+            "priority": {
+                "order": [
+                    "2"
+                ]
+            }
+        },
+        "cuda13.0": {
+            "nvidia": {
+                "cuda_version_lower_bound": [
+                    "13.0"
+                ],
+                "sm_arch": [
+                    "75_real",
+                    "80_real",
+                    "86_real",
+                    "90_real",
+                    "100_real",
+                    "120_real",
+                    "120_virtual"
+                ]
+            },
+            "priority": {
+                "order": [
+                    "1"
+                ]
+            }
+        },
+        "null": {},
+        "rocm6.3": {
+            "amd": {
+                "gfx_arch": [
+                    "gfx1030",
+                    "gfx1100",
+                    "gfx1101",
+                    "gfx1102",
+                    "gfx1200",
+                    "gfx1201",
+                    "gfx900",
+                    "gfx906",
+                    "gfx908",
+                    "gfx90a",
+                    "gfx942"
+                ],
+                "rocm_version": [
+                    "6.3"
+                ]
+            }
+        },
+        "rocm6.4": {
+            "amd": {
+                "gfx_arch": [
+                    "gfx1030",
+                    "gfx1100",
+                    "gfx1101",
+                    "gfx1102",
+                    "gfx1200",
+                    "gfx1201",
+                    "gfx900",
+                    "gfx906",
+                    "gfx908",
+                    "gfx90a",
+                    "gfx942"
+                ],
+                "rocm_version": [
+                    "6.4"
+                ]
+            }
+        },
+        "xpu": {
+            "intel": {
+                "device_ip": [
+                    "12.55.8",
+                    "12.60.7",
+                    "12.71.4",
+                    "12.74.4",
+                    "20.1.0",
+                    "20.4.4"
+                ]
+            }
+        }
+    }
+}

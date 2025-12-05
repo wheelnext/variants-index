@@ -1,0 +1,54 @@
+{
+    "$schema": "https://variants-schema.wheelnext.dev/v0.0.3.json",
+    "default-priorities": {
+        "feature": {},
+        "namespace": [
+            "nvidia"
+        ],
+        "property": {}
+    },
+    "providers": {
+        "nvidia": {
+            "install-time": true,
+            "plugin-api": "nvidia_variant_provider.plugin:NvidiaVariantPlugin",
+            "requires": [
+                "nvidia-variant-provider>=0.0.1,<1.0.0"
+            ]
+        }
+    },
+    "static-properties": {},
+    "variants": {
+        "cu12": {
+            "nvidia": {
+                "cuda_version_lower_bound": [
+                    "12.0"
+                ],
+                "sm_arch": [
+                    "100_real",
+                    "120_real",
+                    "120_virtual",
+                    "50_real",
+                    "60_real",
+                    "70_real",
+                    "80_real",
+                    "90_real"
+                ]
+            }
+        },
+        "cu13": {
+            "nvidia": {
+                "cuda_version_lower_bound": [
+                    "13.0"
+                ],
+                "sm_arch": [
+                    "100_real",
+                    "120_real",
+                    "120_virtual",
+                    "75_real",
+                    "80_real",
+                    "90_real"
+                ]
+            }
+        }
+    }
+}
