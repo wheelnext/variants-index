@@ -156,3 +156,15 @@ registry = "https://wheelnext.github.io/amd-variant-provider/"
 packages = [
     "amd-variant-provider",
 ]
+
+[[index]]
+name = "huawei-ascend"
+maintainers = [
+    {name = "Zhihang Deng", email = "zhihangdeng@link.cuhk.edu.cn"},
+    {name = "Weijun Lu", email = "luweijun1@huawei.com"}
+]
+registry = "https://mirrors.huaweicloud.com/ascend/repos/pypi/variant/"
+packages = [
+    "huawei-ascend-variant-provider",
+    "vllm-ascend",
+]
