@@ -1,0 +1,84 @@
+{
+    "$schema": "https://variants-schema.wheelnext.dev/v0.0.3.json",
+    "default-priorities": {
+        "feature": {},
+        "namespace": [
+            "nvidia"
+        ],
+        "property": {}
+    },
+    "providers": {
+        "nvidia": {
+            "enable-if": "platform_system == 'Linux'",
+            "install-time": true,
+            "plugin-api": "nvidia_variant_provider.plugin:NvidiaVariantPlugin",
+            "requires": [
+                "nvidia-variant-provider>=0.0.2,<1.0.0"
+            ]
+        }
+    },
+    "static-properties": {},
+    "variants": {
+        "cu11": {
+            "nvidia": {
+                "cuda_version_lower_bound": [
+                    "11.0"
+                ],
+                "sm_arch": [
+                    "35_real",
+                    "37_real",
+                    "50_real",
+                    "52_real",
+                    "60_real",
+                    "61_real",
+                    "70_real",
+                    "75_real",
+                    "80_real",
+                    "86_real",
+                    "89_real",
+                    "90_real",
+                    "90_virtual"
+                ]
+            }
+        },
+        "cu12": {
+            "nvidia": {
+                "cuda_version_lower_bound": [
+                    "12.0"
+                ],
+                "sm_arch": [
+                    "100_real",
+                    "100_virtual",
+                    "120_real",
+                    "50_real",
+                    "52_real",
+                    "60_real",
+                    "61_real",
+                    "70_real",
+                    "75_real",
+                    "80_real",
+                    "86_real",
+                    "89_real",
+                    "90_real"
+                ]
+            }
+        },
+        "cu13": {
+            "nvidia": {
+                "cuda_version_lower_bound": [
+                    "13.0"
+                ],
+                "sm_arch": [
+                    "100_real",
+                    "120_real",
+                    "120_virtual",
+                    "75_real",
+                    "80_real",
+                    "86_real",
+                    "89_real",
+                    "90_real"
+                ]
+            }
+        }
+    }
+}
