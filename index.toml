@@ -69,6 +69,10 @@ maintainers = [
 ]
 registry = "https://download.pytorch.org/whl/variant/"
 packages = [
+    # todo: remove cuda bindings from here and source from variants-index.wheelnext.dev
+    "cuda-bindings",
+    "triton-rocm",
+    "triton-xpu",
     "triton",
     "pytorch-triton-rocm",
     "pytorch-triton-xpu"
