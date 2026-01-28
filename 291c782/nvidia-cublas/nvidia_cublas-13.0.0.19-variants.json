@@ -1,0 +1,30 @@
+{
+    "$schema": "https://variants-schema.wheelnext.dev/v0.0.3.json",
+    "default-priorities": {
+        "feature": {},
+        "namespace": [
+            "nvidia"
+        ],
+        "property": {}
+    },
+    "providers": {
+        "nvidia": {
+            "enable-if": "platform_system == 'Linux'",
+            "install-time": true,
+            "plugin-api": "nvidia_variant_provider.plugin:NvidiaVariantPlugin",
+            "requires": [
+                "nvidia-variant-provider>=0.0.2,<1.0.0"
+            ]
+        }
+    },
+    "static-properties": {},
+    "variants": {
+        "cu13": {
+            "nvidia": {
+                "cuda_version_lower_bound": [
+                    "13.0"
+                ]
+            }
+        }
+    }
+}

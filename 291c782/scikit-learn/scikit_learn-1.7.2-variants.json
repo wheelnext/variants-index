@@ -1,0 +1,85 @@
+{
+    "$schema": "https://variants-schema.wheelnext.dev/v0.0.3.json",
+    "default-priorities": {
+        "feature": {
+            "openmp": [
+                "provider"
+            ]
+        },
+        "namespace": [
+            "x86_64",
+            "aarch64",
+            "openmp"
+        ],
+        "property": {
+            "openmp": {
+                "provider": [
+                    "gnu",
+                    "intel",
+                    "llvm"
+                ]
+            }
+        }
+    },
+    "providers": {
+        "aarch64": {
+            "enable-if": "platform_machine == 'aarch64' or 'arm' in platform_machine",
+            "install-time": true,
+            "plugin-api": "provider_variant_aarch64.plugin:AArch64Plugin",
+            "requires": [
+                "provider-variant-aarch64"
+            ]
+        },
+        "openmp": {
+            "install-time": false,
+            "requires": [
+                "openmp-variant-provider"
+            ]
+        },
+        "x86_64": {
+            "enable-if": "platform_machine == 'x86_64' or platform_machine == 'AMD64'",
+            "install-time": true,
+            "plugin-api": "provider_variant_x86_64.plugin:X8664Plugin",
+            "requires": [
+                "provider-variant-x86-64"
+            ]
+        }
+    },
+    "static-properties": {
+        "openmp": {
+            "provider": [
+                "gnu",
+                "intel",
+                "llvm"
+            ]
+        }
+    },
+    "variants": {
+        "gomp": {
+            "openmp": {
+                "provider": [
+                    "gnu"
+                ]
+            }
+        },
+        "libomp": {
+            "openmp": {
+                "provider": [
+                    "llvm"
+                ]
+            }
+        },
+        "x8664vv4_iomp5": {
+            "openmp": {
+                "provider": [
+                    "intel"
+                ]
+            },
+            "x86_64": {
+                "level": [
+                    "v4"
+                ]
+            }
+        }
+    }
+}
