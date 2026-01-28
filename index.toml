@@ -69,6 +69,8 @@ maintainers = [
 ]
 registry = "https://download.pytorch.org/whl/variant/"
 packages = [
+    "triton-rocm",
+    "triton-xpu",
     "triton",
     "pytorch-triton-rocm",
     "pytorch-triton-xpu"
