@@ -1,0 +1,33 @@
+{
+    "$schema": "https://variants-schema.wheelnext.dev/v0.0.3.json",
+    "default-priorities": {
+        "namespace": [
+            "ascend"
+        ]
+    },
+    "providers": {
+        "ascend": {
+            "enable-if": "platform_system == 'Linux'",
+            "plugin-api": "huawei_ascend_variant_provider.plugin:AscendVariantPlugin",
+            "requires": [
+                "huawei-ascend-variant-provider>=0.0.1,<1.0.0"
+            ]
+        }
+    },
+    "variants": {
+        "a2": {
+            "ascend": {
+                "npu_type": [
+                    "910b"
+                ]
+            }
+        },
+        "a3": {
+            "ascend": {
+                "npu_type": [
+                    "910c"
+                ]
+            }
+        }
+    }
+}

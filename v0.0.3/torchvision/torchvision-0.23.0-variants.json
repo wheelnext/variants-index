@@ -19,7 +19,6 @@
     },
     "static-properties": {},
     "variants": {
-        "00000000": {},
         "cu126": {
             "nvidia": {
                 "cuda_version_lower_bound": [
