@@ -62,6 +62,7 @@
                 ]
             }
         },
+        "null": {},
         "openblas": {
             "blas_lapack": {
                 "provider": [
