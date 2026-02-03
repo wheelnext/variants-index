@@ -9,7 +9,6 @@
     },
     "providers": {
         "nvidia": {
-            "enable-if": "platform_system == 'Linux'",
             "install-time": true,
             "plugin-api": "nvidia_variant_provider.plugin:NvidiaVariantPlugin",
             "requires": [
