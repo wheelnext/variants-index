@@ -191,7 +191,7 @@
 <body>
 
     <header>
-        <a href="/" style="color: white; text-decoration: none;">
+        <a href="../" style="color: white; text-decoration: none;">
             <h1>Wheel Variant Package Index</h1>
         </a>
         <p>
@@ -210,6 +210,11 @@
             or stop working at any time.
         </div>
 
+        <p>This index demonstrates <a href="https://peps.python.org/pep-0825/">PEP 825</a>
+            with <a href="https://peps.python.org/pep-0850/">PEP 850</a> providers.
+            Use a version of uv with the <code>wheel-variants</code> preview feature.
+            The example prints <code>portable</code> and needs no GPU or provider plugin.</p>
+
         <!-- Install instructions with tabs -->
         <div class="tabs">
             <div class="tab-buttons">
@@ -219,18 +224,18 @@
 
             <div id="linux" class="tab-content active">
                 <div class="code-block">
-                    <pre><code id="linux-code" class="language-bash">curl -LsSf https://astral.sh/uv/install.sh | INSTALLER_DOWNLOAD_URL=https://wheelnext.astral.sh/v0.0.3 sh
-uv venv
-uv pip install &lt;package_name&gt;</code></pre>
+                    <pre><code id="linux-code" class="language-bash">uv venv
+uv pip install --preview-features wheel-variants --default-index <span class="index-url">https://wheelnext.github.io/variants-index/v0.2.0/</span> wheelnext-variant-demo
+uv run --python .venv python -c "import wheelnext_variant_demo as demo; print(demo.variant)"</code></pre>
                     <button class="copy-btn" onclick="copyCode('linux-code')">Copy</button>
                 </div>
             </div>
 
             <div id="windows" class="tab-content">
                 <div class="code-block">
-                    <pre><code id="windows-code" class="language-powershell">powershell -c { $env:INSTALLER_DOWNLOAD_URL = 'https://wheelnext.astral.sh/v0.0.3'; irm https://astral.sh/uv/install.ps1 | iex }
-uv venv
-uv pip install torch</code></pre>
+                    <pre><code id="windows-code" class="language-powershell">uv venv
+uv pip install --preview-features wheel-variants --default-index <span class="index-url">https://wheelnext.github.io/variants-index/v0.2.0/</span> wheelnext-variant-demo
+uv run --python .venv python -c "import wheelnext_variant_demo as demo; print(demo.variant)"</code></pre>
                     <button class="copy-btn" onclick="copyCode('windows-code')">Copy</button>
                 </div>
             </div>
@@ -266,6 +271,10 @@ uv pip install torch</code></pre>
     </footer>
 
     <script>
+        document.querySelectorAll('.index-url').forEach(el => {
+            el.textContent = new URL('.', location.href).href;
+        });
+
         function openTab(evt, tabId) {
             const contents = document.querySelectorAll('.tab-content');
             const buttons = document.querySelectorAll('.tab-btn');

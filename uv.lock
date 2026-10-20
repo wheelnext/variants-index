@@ -758,7 +758,7 @@ wheels = [
 
 [[package]]
 name = "wheelnext-variants-index"
-version = "0.0.3"
+version = "0.2.0"
 source = { virtual = "." }
 dependencies = [
     { name = "beautifulsoup4" },

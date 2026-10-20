@@ -6,13 +6,14 @@ on:
       - master
       - v0.0.2
 
+  pull_request:
   workflow_dispatch:
 
 jobs:
 
   build-index:
     permissions:
-      contents: write # Needed for GH pages updates
+      contents: ${{ github.ref == 'refs/heads/master' && 'write' || 'read' }}
 
     runs-on: ubuntu-24.04
     concurrency:
@@ -33,8 +34,11 @@ jobs:
           uv sync --frozen
 
       - name: Build site
+        env:
+          BUILD_ARGS: ${{ github.event_name == 'pull_request' && '--demo-only' || '' }}
         run: |
-          uv run main.py
+          uv run --frozen python -m unittest discover -s tests
+          SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) uv run --frozen main.py ${BUILD_ARGS}
 
       - name: Publish pages
         if: github.ref == 'refs/heads/master'
@@ -59,6 +63,15 @@ jobs:
           mkdir "$version_dir"
           cp -r build/* "./$version_dir"
           git add "$version_dir"
+
+          if ! grep -Fq "href=\"$version_dir/\"" index.html; then
+            awk -v v="$version_dir" -v date="$(date -u +%Y/%m/%d)" '
+              {print}
+              /<tbody>/ {printf "<tr><td><pre>%s</pre></td><td>%s</td><td><a href=\"%s/\">Link</a></td></tr>\n", v, date, v}
+            ' index.html > versions.html
+            mv versions.html index.html
+            git add index.html
+          fi
 
           if git diff --cached --quiet; then
             echo "No changes to publish, skipping commit."

@@ -1,6 +1,6 @@
 [project]
 name = "WheelNext_Variants_Index"
-version = "0.0.3"
+version = "0.2.0"
 authors = [{ name = "Jonathan Dekhtiar", email = "jonathan@dekhtiar.com" }]
 readme = "README.md"
 requires-python = ">=3.12"
