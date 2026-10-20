@@ -37,42 +37,23 @@ jobs:
           uv run --frozen python -m unittest discover -s tests
           SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) uv run --frozen main.py
 
+      - name: Check out GitHub Pages
+        if: github.ref == 'refs/heads/master'
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: pages
+
       - name: Publish pages
         if: github.ref == 'refs/heads/master'
         run: |
-          commit=${GITHUB_SHA::7}
-          version=$(grep '^version' pyproject.toml | cut -d '"' -f2)
+          uv run --frozen python -m src.publish pages "${GITHUB_SHA::7}"
 
-          git fetch origin gh-pages
-          git branch gh-pages FETCH_HEAD
-          git checkout gh-pages
-
+          cd pages
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-          
-          rm -rf "${commit}/"
-          mkdir "$commit"
-          cp -r build/* "./$commit"
-          git add "$commit"
-          
-          version_dir="v${version}"
-          rm -rf "${version_dir}/"
-          mkdir "$version_dir"
-          cp -r build/* "./$version_dir"
-          git add "$version_dir"
-
-          if ! grep -Fq "href=\"$version_dir/\"" index.html; then
-            awk -v v="$version_dir" -v date="$(date -u +%Y/%m/%d)" '
-              {print}
-              /<tbody>/ {printf "<tr><td><pre>%s</pre></td><td>%s</td><td><a href=\"%s/\">Link</a></td></tr>\n", v, date, v}
-            ' index.html > versions.html
-            mv versions.html index.html
-            git add index.html
-          fi
-
-          if git diff --cached --quiet; then
-            echo "No changes to publish, skipping commit."
-          else
-            git commit -m "Publish Wheel Variant Index for $commit"
-            git push --set-upstream origin gh-pages
+          git add --all
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish Wheel Variant Index for ${GITHUB_SHA::7}"
+            git push origin HEAD:gh-pages
           fi

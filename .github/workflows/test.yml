@@ -15,3 +15,9 @@ jobs:
           python-version: "3.13"
       - run: uv run --frozen python -m unittest discover -s tests
       - run: uv run --frozen main.py --demo-only
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: pages
+      - name: Stage the demo in a copy of the published site
+        run: uv run --frozen python -m src.publish pages "${GITHUB_SHA::7}"
