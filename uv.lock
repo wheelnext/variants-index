@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.12"
 
 [[package]]
@@ -719,8 +719,8 @@ wheels = [
 
 [[package]]
 name = "variantlib"
-version = "0.0.2"
-source = { git = "https://github.com/wheelnext/variantlib.git?rev=main#73887f3bb8d4e6c28b68c3a98b50ec73efbeb81e" }
+version = "0.2.0"
+source = { git = "https://github.com/wheelnext/variantlib.git?rev=v0.2.0#31f4a02479936f682338eab8c9b932d6f55b160c" }
 dependencies = [
     { name = "packaging" },
     { name = "platformdirs" },
@@ -768,6 +768,7 @@ dependencies = [
     { name = "requests" },
     { name = "tomlkit" },
     { name = "variantlib", extra = ["cli"] },
+    { name = "wheel" },
 ]
 
 [package.dev-dependencies]
@@ -775,7 +776,6 @@ dev = [
     { name = "pre-commit" },
     { name = "ruff" },
     { name = "tox" },
-    { name = "wheel" },
 ]
 
 [package.metadata]
@@ -787,7 +787,8 @@ requires-dist = [
     { name = "requests", specifier = ">=2.32,<2.33" },
     { name = "tomlkit", specifier = ">=0.13,<0.14" },
     { name = "typing-extensions", marker = "python_full_version < '3.11'" },
-    { name = "variantlib", extras = ["cli"], git = "https://github.com/wheelnext/variantlib.git?rev=main" },
+    { name = "variantlib", extras = ["cli"], git = "https://github.com/wheelnext/variantlib.git?rev=v0.2.0" },
+    { name = "wheel", specifier = ">=0.45,<0.46" },
 ]
 
 [package.metadata.requires-dev]
@@ -795,5 +796,4 @@ dev = [
     { name = "pre-commit", specifier = ">=4,<5" },
     { name = "ruff", specifier = ">=0.10,<1.0" },
     { name = "tox" },
-    { name = "wheel", specifier = ">=0.45" },
 ]
