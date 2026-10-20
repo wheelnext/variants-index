@@ -100,12 +100,18 @@ def migrate(wheel: Path, directory: Path, *, metadata: Path | None = None) -> No
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", required=True, type=Path)
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        epilog=(
+            "Build the index with main.py --wheel-dir OUTPUT. Publish at a new "
+            "version or URL, and check that provider plugins implement PEP 850."
+        ),
+    )
+    parser.add_argument("--output", required=True, type=Path, help="write wheels here")
     parser.add_argument(
         "--metadata",
         type=Path,
-        help="use corrected release metadata from the publisher",
+        help="use the publisher's corrected metadata for this release",
     )
     parser.add_argument("wheels", nargs="+", type=Path)
     args = parser.parse_args()
