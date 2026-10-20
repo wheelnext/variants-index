@@ -8,8 +8,6 @@ from pydantic import ConfigDict
 from pydantic import Field
 
 from src.schemas.v0_0_3 import DefaultPriorities as DefaultPriorities_v3
-from src.schemas.v0_0_3 import Provider as Provider_v3
-from src.schemas.v0_0_3 import StaticFeature as StaticFeature_v3
 from src.schemas.v0_0_3 import WheelVariantJSON_V0_0_3
 
 # ---------------------------------------------------------------------------
@@ -86,19 +84,24 @@ class WheelVariantJSON_V0_0_2(BaseModel):  # noqa: N801
         prov_v3 = {}
         for name, provider in self.providers.items():
             _data = provider.model_dump(exclude_none=True)
-            _data["install-time"] = _data.pop("plugin_use", "all") == "all"
+            _data["install-time"] = _data.pop("plugin_use", "all") not in {
+                "build",
+                "none",
+            }
             prov_v3[name] = _data
 
         # Copy variants directly
-        variants_v3 = self.variants
+        variants_v3 = self.variants.copy()
 
         # Ensure there's no remaining of old `null` variant format
-        variants_v3["null"] = {}
-        _ = variants_v3.pop("00000000", None)
+        if "00000000" in variants_v3:
+            variants_v3["null"] = variants_v3.pop("00000000")
 
         # Build static-properties from default_priorities.property
         static_props = {}
         for namespace, feature_map in self.default_priorities.property.items():
+            if prov_v3[namespace]["install-time"]:
+                continue
             static_props[namespace] = {}
             for feature_name, prop_list in feature_map.items():
                 static_props[namespace][feature_name] = prop_list
