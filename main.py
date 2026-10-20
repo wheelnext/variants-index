@@ -62,11 +62,13 @@ if __name__ == "__main__":
     BUILD_DIR.mkdir(exist_ok=True, parents=True)
 
     with tempfile.TemporaryDirectory() as tmp:
-        build_demo(Path(tmp))
-        index_local_wheels(BUILD_DIR, Path(tmp))
-    if source is not None:
-        index_local_wheels(BUILD_DIR, source)
-    elif not args.demo_only:
+        demo = Path(tmp)
+        build_demo(demo)
+        wheels = list(demo.glob("*.whl"))
+        if source is not None:
+            wheels.extend(source.glob("*.whl"))
+        index_local_wheels(BUILD_DIR, wheels)
+    if source is None and not args.demo_only:
         for package in configured_packages().values():
             generate_project_index(package)
 

@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import datetime
 import hashlib
-import json
-import logging
 import re
 import shutil
 from collections import defaultdict
 from dataclasses import dataclass
+from dataclasses import replace
 from pathlib import Path
+from typing import TYPE_CHECKING
 from urllib.parse import urljoin
 from zipfile import ZipFile
 from zoneinfo import ZoneInfo
@@ -26,12 +26,13 @@ from src.metadata import metadata_json
 from src.metadata import read_variant
 from src.metadata import wheel_parts
 
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+
 BUILD_DIR = Path("build")
 BUILD_DATE = datetime.datetime.now(tz=ZoneInfo("America/New_York")).strftime(
     "%Y-%m-%d %H:%M"
 )
-
-logger = logging.getLogger(__name__)
 
 VARIANT_JSON_FILE_REGEX = re.compile(r"\S*-(.*)-variants\.json")
 
@@ -85,7 +86,7 @@ class VariantWheel(Artifact):
         return self.re_match(VALIDATION_WHEEL_NAME_REGEX).group("ver")
 
     @property
-    def variant_alias(self) -> str:
+    def variant_alias(self) -> str | None:
         return self.re_match(VALIDATION_WHEEL_NAME_REGEX).group("variant_label")
 
 
@@ -226,17 +227,14 @@ def write_project_index(
 
     def augment_wheel_variant(artifact: VariantWheel) -> VariantWheel:
         label = artifact.variant_alias
+        if label is None:
+            return artifact
         labels[artifact.version].add(label)
         variant = releases[artifact.version].variants[label]
-        return VariantWheel(
-            name=artifact.name,
-            link=artifact.link,
-            checksum=artifact.checksum,
-            vprops=[prop.to_str() for prop in variant.properties],
-        )
+        return replace(artifact, vprops=[p.to_str() for p in variant.properties])
 
     wheel_files = sorted(
-        [augment_wheel_variant(w) if w.variant_alias else w for w in wheels],
+        (augment_wheel_variant(w) for w in wheels),
         key=lambda x: (Version(x.name.split("-", maxsplit=2)[1]), x.name),
         reverse=True,
     )
@@ -266,26 +264,29 @@ def write_project_index(
         f.write(output)
 
 
-def index_local_wheels(build: Path, directory: Path) -> None:
+def index_local_wheels(build: Path, wheels: Iterable[Path]) -> None:
     """Build the index metadata from variant.json in the wheels we host."""
     packages = defaultdict(list)
     releases: dict[str, dict[str, VariantsJson]] = defaultdict(dict)
-    for wheel in sorted(directory.glob("*.whl")):
+    for wheel in sorted(wheels):
         namever, label = wheel_parts(wheel.name)
         name, version = namever.split("-", 1)
         package = canonicalize_name(name)
         if label is not None:
             with ZipFile(wheel) as archive:
                 data = archive.read(f"{namever}.dist-info/variant.json")
-            variant = read_variant(json.loads(data), label)
+            variant = read_variant(data, label)
             if version in releases[package]:
                 releases[package][version].merge(variant)
             else:
                 releases[package][version] = variant
         project = build / package
         project.mkdir(exist_ok=True, parents=True)
-        digest = sha256sum(shutil.copyfile(wheel, project / wheel.name))
+        destination = project / wheel.name
+        if destination.exists():
+            raise ValueError(f"Duplicate wheel: {wheel.name}")
+        digest = sha256sum(shutil.copyfile(wheel, destination))
         packages[package].append(VariantWheel(wheel.name, wheel.name, digest))
 
-    for package, wheels in packages.items():
-        write_project_index(build / package, wheels, releases[package])
+    for package, artifacts in packages.items():
+        write_project_index(build / package, artifacts, releases[package])

@@ -9,7 +9,6 @@ from variantlib.constants import VALIDATION_WHEEL_NAME_REGEX
 from variantlib.variant_dist_info import VariantDistInfo
 
 if TYPE_CHECKING:
-    from variantlib.constants import VariantsJsonDict
     from variantlib.variants_json import VariantsJson
 
 SCHEMA = "https://variants-schema.wheelnext.dev/peps/850/v0.2.0.json"
@@ -29,7 +28,8 @@ def metadata_json(metadata: VariantsJson) -> str:
     return json.dumps(data, indent=2) + "\n"
 
 
-def read_variant(data: VariantsJsonDict, label: str) -> VariantDistInfo:
-    if data.get("$schema") != SCHEMA:
-        raise ValueError(f"Expected {SCHEMA}, got {data.get('$schema')}")
-    return VariantDistInfo(json.dumps(data), expected_label=label)
+def read_variant(data: bytes | str, label: str) -> VariantDistInfo:
+    schema = json.loads(data).get("$schema")
+    if schema != SCHEMA:
+        raise ValueError(f"Expected {SCHEMA}, got {schema}")
+    return VariantDistInfo(data, expected_label=label)

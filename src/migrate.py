@@ -81,7 +81,7 @@ def migrate(wheel: Path, directory: Path, *, metadata: Path | None = None) -> No
             old = json.loads(metadata.read_text(encoding="utf-8"))
             old["variants"] = {original_label: old["variants"][original_label]}
         data = metadata_json(convert_metadata(old))
-        read_variant(json.loads(data), label)
+        read_variant(data, label)
         if any(n.endswith(("/RECORD.jws", "/RECORD.p7s")) for n in src.namelist()):
             raise ValueError(f"Cannot migrate signed wheel: {wheel}")
         directory.mkdir(parents=True, exist_ok=True)

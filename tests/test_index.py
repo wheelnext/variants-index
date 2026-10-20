@@ -51,7 +51,7 @@ class TestIndex(unittest.TestCase):
                     whl.writestr("example-1.dist-info/variant.json", json.dumps(old))
                 migrate(wheel, new)
 
-            index_local_wheels(build, new)
+            index_local_wheels(build, new.glob("*.whl"))
             project = build / "example"
             metadata = json.loads((project / "example-1-variants.json").read_text())
             assert metadata["$schema"] == SCHEMA
