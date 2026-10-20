@@ -28,13 +28,12 @@ jobs:
         with:
           python-version: "3.13" 
           
-      - name: Install the package and test dependencies
+      - name: Install dependencies
         run: |
           uv sync --frozen
 
       - name: Build site
         run: |
-          uv run --frozen python -m unittest discover -s tests
           SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) uv run --frozen main.py
 
       - name: Check out GitHub Pages

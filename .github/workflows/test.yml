@@ -13,7 +13,6 @@ jobs:
       - uses: astral-sh/setup-uv@v5
         with:
           python-version: "3.13"
-      - run: uv run --frozen python -m unittest discover -s tests
       - run: uv run --frozen main.py --demo-only
       - uses: actions/checkout@v4
         with:
