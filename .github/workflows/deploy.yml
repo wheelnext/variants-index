@@ -6,14 +6,13 @@ on:
       - master
       - v0.0.2
 
-  pull_request:
   workflow_dispatch:
 
 jobs:
 
   build-index:
     permissions:
-      contents: ${{ github.ref == 'refs/heads/master' && 'write' || 'read' }}
+      contents: write # Needed for GH pages updates
 
     runs-on: ubuntu-24.04
     concurrency:
@@ -34,11 +33,9 @@ jobs:
           uv sync --frozen
 
       - name: Build site
-        env:
-          BUILD_ARGS: ${{ github.event_name == 'pull_request' && '--demo-only' || '' }}
         run: |
           uv run --frozen python -m unittest discover -s tests
-          SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) uv run --frozen main.py ${BUILD_ARGS}
+          SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) uv run --frozen main.py
 
       - name: Publish pages
         if: github.ref == 'refs/heads/master'
