@@ -12,6 +12,12 @@
     <link rel="icon" type="image/x-icon" href="static/icons/python_96x96.ico" sizes="96x96">
     <link rel="icon" type="image/x-icon" href="static/icons/python_128x128.ico" sizes="128x128">
 
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-powershell.min.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -102,6 +108,84 @@
             margin-bottom: 0.5rem;
         }
 
+        /* Tabs */
+        .tabs {
+            margin-top: 1.5rem;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .tab-buttons {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            background: #f1f1f1;
+            border-radius: 8px 8px 0 0;
+            overflow: hidden;
+        }
+
+        .tab-buttons button {
+            flex: 1;
+            padding: 0.7rem;
+            border: none;
+            cursor: pointer;
+            background: #f1f1f1;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .tab-buttons button.active {
+            background: #fff;
+            border-bottom: 2px solid #007acc;
+            color: #007acc;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .code-block {
+            position: relative;
+            width: 100%;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1rem;
+            border-radius: 0;
+            width: 100%;
+            box-sizing: border-box;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            background: #0d1117;
+            color: #f8f8f2;
+        }
+
+        .copy-btn {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 122, 204, 0.9);
+            color: #fff;
+            border: none;
+            padding: 0.3rem 0.7rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(0, 90, 153, 0.9);
+        }
+
     </style>
 </head>
 
@@ -127,7 +211,32 @@
             or stop working at any time.
         </div>
 
-        <p>This index includes variant releases compatible with specification v0.2.0 and provider packages.</p>
+        <!-- Install instructions with tabs -->
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="openTab(event, 'linux')">Linux / macOS</button>
+                <button class="tab-btn" onclick="openTab(event, 'windows')">Windows</button>
+            </div>
+
+            <div id="linux" class="tab-content active">
+                <div class="code-block">
+                    <pre><code id="linux-code" class="language-bash">curl -LsSf https://astral.sh/uv/install.sh | INSTALLER_DOWNLOAD_URL=https://wheelnext.astral.sh/v0.2.0 sh
+uv venv
+uv pip install &lt;package_name&gt;</code></pre>
+                    <button class="copy-btn" onclick="copyCode('linux-code', this)">Copy</button>
+                </div>
+            </div>
+
+            <div id="windows" class="tab-content">
+                <div class="code-block">
+                    <pre><code id="windows-code" class="language-powershell">powershell -c { $env:INSTALLER_DOWNLOAD_URL = 'https://wheelnext.astral.sh/v0.2.0'; irm https://astral.sh/uv/install.ps1 | iex }
+uv venv
+uv pip install torch</code></pre>
+                    <button class="copy-btn" onclick="copyCode('windows-code', this)">Copy</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div style="width: 100%; text-align: left; list-style: none; max-width: 1200px;">
@@ -204,11 +313,31 @@
             </a> and
             <a href="https://github.com/wheelnext" target="_blank" class="highlight">github</a> !
         </p>
-        <div style="color: #3c3a3a; padding-bottom: 1rem;">Build Date: 2026-10-21 18:06</div>
+        <div style="color: #3c3a3a; padding-bottom: 1rem;">Build Date: 2026-10-21 18:27</div>
         <a href="https://wheelnext.dev/" target="_blank" class="highlight">
             WheelNext | Serving wheels with a wink and a nudge (when not eating tacos).
         </a>
     </footer>
+
+    <script>
+        function openTab(evt, tabId) {
+            const contents = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+            contents.forEach(content => content.classList.remove('active'));
+            buttons.forEach(button => button.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
+        function copyCode(codeId, button) {
+            const code = document.getElementById(codeId).innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const original = button.innerText;
+                button.innerText = "Copied!";
+                setTimeout(() => button.innerText = original, 2000);
+            });
+        }
+    </script>
 
 </body>
 
