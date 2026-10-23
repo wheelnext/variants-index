@@ -1,0 +1,61 @@
+{
+    "$schema": "https://variants-schema.wheelnext.dev/v0.2.0.json",
+    "default-priorities": {
+        "namespace": [
+            "x86_64",
+            "aarch64",
+            "blas_lapack"
+        ]
+    },
+    "providers": {
+        "aarch64": {
+            "plugin-api": "aarch64_variant_provider.plugin:AArch64Plugin",
+            "requires": [
+                "aarch64-variant-provider"
+            ]
+        },
+        "blas_lapack": {
+            "static-properties": {
+                "provider": [
+                    "accelerate",
+                    "openblas",
+                    "mkl"
+                ]
+            }
+        },
+        "x86_64": {
+            "plugin-api": "x86_64_variant_provider.plugin:X8664Plugin",
+            "requires": [
+                "x86_64-variant-provider"
+            ]
+        }
+    },
+    "variants": {
+        "accelerate": {
+            "blas_lapack": {
+                "provider": [
+                    "accelerate"
+                ]
+            }
+        },
+        "openblas": {
+            "blas_lapack": {
+                "provider": [
+                    "openblas"
+                ]
+            }
+        },
+        "x8664v4_mkl": {
+            "blas_lapack": {
+                "provider": [
+                    "mkl"
+                ]
+            },
+            "x86_64": {
+                "level": [
+                    "v4"
+                ]
+            }
+        }
+    }
+}
