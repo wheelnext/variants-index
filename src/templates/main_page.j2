@@ -211,6 +211,9 @@
             or stop working at any time.
         </div>
 
+        <p>Use the latest release of uv and enable the <code>wheel-variants</code> preview feature.
+            Replace <code>numpy</code> with another package from the index to try it.</p>
+
         <!-- Install instructions with tabs -->
         <div class="tabs">
             <div class="tab-buttons">
@@ -220,18 +223,18 @@
 
             <div id="linux" class="tab-content active">
                 <div class="code-block">
-                    <pre><code id="linux-code" class="language-bash">curl -LsSf https://astral.sh/uv/install.sh | INSTALLER_DOWNLOAD_URL=https://wheelnext.astral.sh/v0.2.0 sh
+                    <pre><code id="linux-code" class="language-bash">curl -LsSf https://astral.sh/uv/install.sh | sh
 uv venv
-uv pip install &lt;package_name&gt;</code></pre>
+uv pip install --preview-features wheel-variants --index https://wheelnext.github.io/variants-index/v0.2.0/ numpy</code></pre>
                     <button class="copy-btn" onclick="copyCode('linux-code', this)">Copy</button>
                 </div>
             </div>
 
             <div id="windows" class="tab-content">
                 <div class="code-block">
-                    <pre><code id="windows-code" class="language-powershell">powershell -c { $env:INSTALLER_DOWNLOAD_URL = 'https://wheelnext.astral.sh/v0.2.0'; irm https://astral.sh/uv/install.ps1 | iex }
+                    <pre><code id="windows-code" class="language-powershell">powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 uv venv
-uv pip install torch</code></pre>
+uv pip install --preview-features wheel-variants --index https://wheelnext.github.io/variants-index/v0.2.0/ numpy</code></pre>
                     <button class="copy-btn" onclick="copyCode('windows-code', this)">Copy</button>
                 </div>
             </div>
