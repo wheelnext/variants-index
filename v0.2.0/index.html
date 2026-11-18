@@ -220,18 +220,18 @@
 
             <div id="linux" class="tab-content active">
                 <div class="code-block">
-                    <pre><code id="linux-code" class="language-bash">curl -LsSf https://astral.sh/uv/install.sh | INSTALLER_DOWNLOAD_URL=https://wheelnext.astral.sh/v0.2.0 sh
+                    <pre><code id="linux-code" class="language-bash">curl -LsSf https://astral.sh/uv/install.sh | sh
 uv venv
-uv pip install &lt;package_name&gt;</code></pre>
+uv pip install --preview-features wheel-variants --index https://wheelnext.github.io/variants-index/v0.2.0/ numpy</code></pre>
                     <button class="copy-btn" onclick="copyCode('linux-code', this)">Copy</button>
                 </div>
             </div>
 
             <div id="windows" class="tab-content">
                 <div class="code-block">
-                    <pre><code id="windows-code" class="language-powershell">powershell -c { $env:INSTALLER_DOWNLOAD_URL = 'https://wheelnext.astral.sh/v0.2.0'; irm https://astral.sh/uv/install.ps1 | iex }
+                    <pre><code id="windows-code" class="language-powershell">powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 uv venv
-uv pip install torch</code></pre>
+uv pip install --preview-features wheel-variants --index https://wheelnext.github.io/variants-index/v0.2.0/ numpy</code></pre>
                     <button class="copy-btn" onclick="copyCode('windows-code', this)">Copy</button>
                 </div>
             </div>
@@ -317,7 +317,7 @@ uv pip install torch</code></pre>
             </a> and
             <a href="https://github.com/wheelnext" target="_blank" class="highlight">github</a> !
         </p>
-        <div style="color: #3c3a3a; padding-bottom: 1rem;">Build Date: 2026-10-23 14:34</div>
+        <div style="color: #3c3a3a; padding-bottom: 1rem;">Build Date: 2026-11-18 12:33</div>
         <a href="https://wheelnext.dev/" target="_blank" class="highlight">
             WheelNext | Serving wheels with a wink and a nudge (when not eating tacos).
         </a>
