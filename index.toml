@@ -19,10 +19,12 @@ maintainers = [
 ]
 registry = "https://pypi.anaconda.org/mgorny/simple/"
 packages = [
+    "arch64-variant-provider",
     "blas-lapack-variant-provider",
     "openmp-variant-provider",
     "provider-variant-aarch64",
-    "provider-variant-x86-64"
+    "provider-variant-x86-64",
+    "x86_64-variant-provider"
 ]
 
 [[provider-index]]
